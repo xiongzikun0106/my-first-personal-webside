@@ -79,6 +79,7 @@ a:hover {
     color: var(--bg-color) !important; /* 强制颜色和背景一样！ */
     cursor: default; /* 鼠标放上去还是箭头，极难发现 */
     text-decoration: none;
+    color: #00000000
 }
 
 .secret-link:hover {
@@ -87,8 +88,8 @@ a:hover {
 
 /* 只有全选页面(Ctrl+A)时，它才会现原形 */
 ::selection {
-    background: #3498db;
-    color: white;
+    background: #00000000;
+    color: #00000000;
 }
 
 /* --- item04 专用样式 (.small .medium) --- */
