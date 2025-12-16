@@ -1,11 +1,10 @@
-/* 全局重置与字体 */
+/* --- 全局设置 --- */
 :root {
-    --bg-color: #f5f7fa; /* 柔和的灰白背景 */
+    --bg-color: whitesmoke; /* 保持你原来的经典背景色 */
     --card-bg: #ffffff;
-    --primary-color: #3498db; /* 御坂美琴电击蓝 */
+    --primary-color: #3498db;
     --text-main: #2c3e50;
     --text-sub: #7f8c8d;
-    --accent-color: #e74c3c; /* 强调色 */
 }
 
 * {
@@ -16,47 +15,34 @@
 
 body {
     background-color: var(--bg-color);
-    font-family: "Noto Sans SC", "Microsoft YaHei", -apple-system, sans-serif;
+    font-family: "Noto Sans SC", "Microsoft YaHei", sans-serif;
     color: var(--text-main);
     line-height: 1.6;
     display: flex;
     flex-direction: column;
     align-items: center;
-    min-height: 100vh;
     padding: 40px 20px;
+    min-height: 100vh;
 }
 
-/* 链接样式 */
-a {
-    color: var(--primary-color);
-    text-decoration: none;
-    transition: all 0.3s ease;
-    font-weight: bold;
-}
-
-a:hover {
-    color: var(--accent-color);
-    text-decoration: underline;
-}
-
-/* 图片样式 - 变成圆形头像并增加阴影 */
+/* --- 图片样式 --- */
 img#image01 {
-    width: 150px;
+    width: 150px; /* 改小一点更精致 */
     height: 150px;
     object-fit: cover;
-    border-radius: 50%;
+    border-radius: 50%; /* 圆形头像 */
     border: 4px solid white;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-    transition: transform 0.3s ease;
-    display: block;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
     margin: 0 auto 20px;
+    display: block;
+    transition: transform 0.5s;
 }
 
 img#image01:hover {
-    transform: rotate(360deg);
+    transform: rotate(360deg); /* 鼠标放上去转圈圈 */
 }
 
-/* 容器与排版 */
+/* --- 文字排版 --- */
 div {
     max-width: 800px;
     width: 100%;
@@ -65,91 +51,78 @@ div {
 }
 
 h1 {
-    font-size: 2.5rem;
     margin-bottom: 10px;
-    color: var(--text-main);
+    font-weight: bold;
 }
 
 h2 {
-    font-size: 1.8rem;
-    margin: 40px 0 20px;
-    position: relative;
+    margin-top: 40px;
+    border-bottom: 3px solid var(--primary-color);
     display: inline-block;
+    padding-bottom: 5px;
 }
 
-h2::after {
-    content: '';
-    display: block;
-    width: 50%;
-    height: 4px;
-    background: var(--primary-color);
-    margin: 5px auto 0;
-    border-radius: 2px;
+a {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: bold;
+    transition: all 0.3s;
 }
 
-p {
-    font-size: 1.1rem;
-    color: var(--text-sub);
+a:hover {
+    text-decoration: underline;
+    color: #e74c3c;
 }
 
-/* 专门针对 Item04 的列表优化 - 卡片网格 */
-#ul01 ul {
-    list-style: none;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* 响应式网格 */
-    gap: 20px;
-    padding: 0;
+/* --- 重点！彩蛋隐藏链接样式 --- */
+.secret-link {
+    color: var(--bg-color) !important; /* 强制颜色和背景一样！ */
+    cursor: default; /* 鼠标放上去还是箭头，极难发现 */
+    text-decoration: none;
 }
 
-#ul01 li {
-    background: var(--card-bg);
-    padding: 25px;
-    border-radius: 16px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-    transition: transform 0.2s, box-shadow 0.2s;
-    border-left: 5px solid var(--primary-color);
-    text-align: left; /* 卡片内文字左对齐更易读 */
+.secret-link:hover {
+    cursor: text; /* 只有稍微有点感觉 */
 }
 
-#ul01 li:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+/* 只有全选页面(Ctrl+A)时，它才会现原形 */
+::selection {
+    background: #3498db;
+    color: white;
 }
 
-/* 字体大小层级优化 */
+/* --- item04 专用样式 (.small .medium) --- */
 .small {
-    font-size: 0.95rem;
+    font-size: 1rem;
     color: #95a5a6;
     font-weight: normal;
 }
 
 .medium {
-    font-size: 1.25rem;
+    font-size: 1.3rem; /* 稍微大一点 */
     color: var(--text-main);
     font-weight: bold;
-    margin: 0 4px;
+    margin: 0 3px;
 }
 
-/* 针对 Item 02/03 这种中间页的特殊处理 */
-.hidden-page {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    height: 80vh;
+/* --- item04 列表转卡片网格 --- */
+#ul01 ul {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* 响应式 */
+    gap: 15px;
+    padding: 0;
 }
 
-.next-link-btn {
-    display: inline-block;
-    margin-top: 20px;
-    padding: 10px 25px;
-    background: var(--primary-color);
-    color: white !important; /* 强制白色 */
-    border-radius: 30px;
-    box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
+#ul01 li {
+    background: var(--card-bg);
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    text-align: left; /* 卡片内左对齐更好读 */
+    transition: transform 0.2s;
 }
 
-.next-link-btn:hover {
-    transform: scale(1.05);
-    background: var(--accent-color);
-    text-decoration: none;
+#ul01 li:hover {
+    transform: translateY(-5px); /* 浮动效果 */
 }
