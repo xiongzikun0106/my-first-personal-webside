@@ -85,12 +85,12 @@ a:hover {
 .secret-link:hover {
     cursor: text; /* 只有稍微有点感觉 */
 }
-
-/* 只有全选页面(Ctrl+A)时，它才会现原形 */
-::selection {
-    background: #00000000;
-    color: #00000000;
+.secret-link::selection{
+    background:#FFFFFF;
+    color: #FFFFFF;
 }
+
+
 
 /* --- item04 专用样式 (.small .medium) --- */
 .small {
