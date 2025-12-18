@@ -92,7 +92,7 @@ a:hover {
 
 
 
-/* --- item04 专用样式 (.small .medium) --- */
+/* --- final_page 专用样式 (.small .medium) --- */
 .small {
     font-size: 1rem;
     color: #95a5a6;
@@ -106,7 +106,7 @@ a:hover {
     margin: 0 3px;
 }
 
-/* --- item04 列表转卡片网格 --- */
+/* --- final_page 列表转卡片网格 --- */
 #ul01 ul {
     list-style: none;
     display: grid;
@@ -126,4 +126,31 @@ a:hover {
 
 #ul01 li:hover {
     transform: translateY(-5px); /* 浮动效果 */
+}
+/* ===== 博客相关（可选增强） ===== */
+
+#blog-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.blog-card {
+    padding: 10px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+}
+
+.blog-card:hover {
+    background-color: #f3f3f3;
+}
+
+#blog-content {
+    max-width: 700px;
+}
+
+.blog-img {
+    max-width: 100%;
+    margin: 10px 0;
 }
