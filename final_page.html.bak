@@ -1,11 +1,12 @@
 <!DOCTYPE html>
+
 <html lang="zh">
 <head>
-    <meta charset="utf-8"/>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <title>你终于找到这里了！</title>
-    <link href="style.css" rel="stylesheet"/>
-    <script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>你终于找到这里了！</title>
+<link href="style.css" rel="stylesheet"/>
+<script>
         function openPost(postId) {
             const data = document.getElementById("data-" + postId);
             const display = document.getElementById("post-display-area");
@@ -28,138 +29,122 @@
     </script>
 </head>
 <body>
-    <div>
-        <header>
-            <img alt="image01" id="image01" src="images/image01.jpg"/>
-        </header>
-    </div>
-    
-    <div>
-        <h1>
-            <span class="small">这里是</span>
-            <span class="medium"><a href="https://x.com/mikotossd0106" target="_blank">御坂鱼坂</a></span>
-        </h1>
-        <p style="margin-top: 10px;">
-            <span class="small">好吧这个人并</span>
-            <span class="medium">不知道</span>
-            <span class="small">写什么，请输入</span>
-            <span class="medium">文本</span>
-        </p>
-    </div>
+<div>
+<header>
+<img alt="image01" id="image01" src="images/image01.jpg"/>
+</header>
+</div>
+<div>
+<h1>
+<span class="small">这里是</span>
+<span class="medium"><a href="https://x.com/mikotossd0106" target="_blank">御坂鱼坂</a></span>
+</h1>
+<p style="margin-top: 10px;">
+<span class="small">好吧这个人并</span>
+<span class="medium">不知道</span>
+<span class="small">写什么，请输入</span>
+<span class="medium">文本</span>
+</p>
+</div>
+<div>
+<h2>
+<span class="small">御坂鱼坂的</span>
+<span class="medium">食用指南</span>
+<span class="small">↓（存疑）</span>
+</h2>
+</div>
+<div id="ul01">
+<ul>
+<li>
+<span class="small">耳朵被</span>
+<span class="medium">水月雨</span>
+<span class="small">的</span>
+<span class="medium">和鸣</span>
+<span class="small">给</span>
+<span class="medium">惯坏了</span>
+<br/><span class="small" style="font-size: 0.9em;">（是个HIFI难民）</span>
+</li>
+<li>
+<span class="small">信仰是</span>
+<span class="medium">指尖跃动的</span>
+<span class="small"><a href="https://space.bilibili.com/514128180" target="_blank">bilibili</a></span>
+<span class="medium">电光</span>
+</li>
+<li>
+<span class="small">成分由</span>
+<span class="medium">Warma</span>
+<span class="small">和软萌的</span>
+<span class="medium"><a href="https://t.me/+85vc8uK_ebUyM2E1" target="_blank">诗岸</a></span>
+<span class="small">的歌声</span>
+<span class="medium">混合而成</span>
+</li>
+<li>
+<span class="small">在</span>
+<span class="medium">地平线5</span>
+<span class="small">里</span>
+<span class="medium">飙车</span>
+<span class="small">，在</span>
+<span class="medium">Galgame</span>
+<span class="small">里</span>
+<span class="medium">飙泪</span>
+</li>
+<li>
+<span class="small">手持</span>
+<span class="medium">白色陶瓷</span>
+<span class="small">质感的</span>
+<span class="medium">Pixel 9 Pro XL</span>
+<span class="small">假装自己是</span>
+<span class="medium">原生党</span>
+</li>
+<li>
+<span class="small">是一个</span>
+<span class="medium">Keter级</span>
+<span class="small">喜欢看</span>
+<span class="medium"><a href="https://scp-wiki-cn.wikidot.com/everkeep-hub" target="_blank">SCP</a></span>
+<span class="small">的</span>
+<span class="medium">现实扭曲者</span>
+</li>
+<li>
+<span class="small">关押在</span>
+<span class="medium">十平米</span>
+<span class="small">只有</span>
+<span class="medium">床</span>
+<span class="small">和</span>
+<span class="medium">AMD 7500f + 4060ti</span>
+<span class="small">的</span>
+<span class="medium">电子牢房</span>
+</li>
+<li>
+<span class="small">收容措施：</span>
+<span class="medium">23℃</span>
+<span class="small">以及</span>
+<span class="medium">30%湿度</span>
+<br/><span class="small" style="font-size: 0.9em; color: #e74c3c;">(救救我的 3D打印耗材)</span>
+</li>
+</ul>
+</div>
+<div style="margin-top: 40px;">
+<p id="link_yiur">
+<a href="https://yiurblog.top/" target="_blank">来自洛🐱的友链</a>
+</p>
+</div>
+<div style="margin-top: 60px;">
+<h2>
+<span class="small">随机掉落的</span>
+<span class="medium">碎碎念</span>
+<span class="small">↓</span>
+</h2>
+</div>
+<div class="card-grid" id="blog-list">
 
-    <div>
-        <h2>
-            <span class="small">御坂鱼坂的</span>
-            <span class="medium">食用指南</span>
-            <span class="small">↓（存疑）</span>
-        </h2>
-    </div>
+</div>
+<div id="blog-content" style="margin-top: 20px; display: none;">
+<button class="back-btn" onclick="backToList()">← 返回列表</button>
+<div class="content-card" id="post-display-area">
+</div>
+</div>
+<div id="blog-data" style="display:none;">
 
-    <div id="ul01">
-        <ul>
-            <li>
-                <span class="small">耳朵被</span>
-                <span class="medium">水月雨</span>
-                <span class="small">的</span>
-                <span class="medium">和鸣</span>
-                <span class="small">给</span>
-                <span class="medium">惯坏了</span>
-                <br/><span class="small" style="font-size: 0.9em;">（是个HIFI难民）</span>
-            </li>
-            <li>
-                <span class="small">信仰是</span>
-                <span class="medium">指尖跃动的</span>
-                <span class="small"><a href="https://space.bilibili.com/514128180" target="_blank">bilibili</a></span>
-                <span class="medium">电光</span>
-            </li>
-            <li>
-                <span class="small">成分由</span>
-                <span class="medium">Warma</span>
-                <span class="small">和软萌的</span>
-                <span class="medium"><a href="https://t.me/+85vc8uK_ebUyM2E1" target="_blank">诗岸</a></span>
-                <span class="small">的歌声</span>
-                <span class="medium">混合而成</span>
-            </li>
-            <li>
-                <span class="small">在</span>
-                <span class="medium">地平线5</span>
-                <span class="small">里</span>
-                <span class="medium">飙车</span>
-                <span class="small">，在</span>
-                <span class="medium">Galgame</span>
-                <span class="small">里</span>
-                <span class="medium">飙泪</span>
-            </li>
-            <li>
-                <span class="small">手持</span>
-                <span class="medium">白色陶瓷</span>
-                <span class="small">质感的</span>
-                <span class="medium">Pixel 9 Pro XL</span>
-                <span class="small">假装自己是</span>
-                <span class="medium">原生党</span>
-            </li>
-            <li>
-                <span class="small">是一个</span>
-                <span class="medium">Keter级</span>
-                <span class="small">喜欢看</span>
-                <span class="medium"><a href="https://scp-wiki-cn.wikidot.com/everkeep-hub" target="_blank">SCP</a></span>
-                <span class="small">的</span>
-                <span class="medium">现实扭曲者</span>
-            </li>
-            <li>
-                <span class="small">关押在</span>
-                <span class="medium">十平米</span>
-                <span class="small">只有</span>
-                <span class="medium">床</span>
-                <span class="small">和</span>
-                <span class="medium">AMD 7500f + 4060ti</span>
-                <span class="small">的</span>
-                <span class="medium">电子牢房</span>
-            </li>
-            <li>
-                <span class="small">收容措施：</span>
-                <span class="medium">23℃</span>
-                <span class="small">以及</span>
-                <span class="medium">30%湿度</span>
-                <br/><span class="small" style="font-size: 0.9em; color: #e74c3c;">(救救我的 3D打印耗材)</span>
-            </li>
-        </ul>
-    </div>
-
-    <div style="margin-top: 40px;">
-        <p id="link_yiur">
-            <a href="https://yiurblog.top/" target="_blank">来自洛🐱的友链</a>
-        </p>
-    </div>
-
-    <div style="margin-top: 60px;">
-        <h2>
-            <span class="small">随机掉落的</span>
-            <span class="medium">碎碎念</span>
-            <span class="small">↓</span>
-        </h2>
-    </div>
-
-    <div id="blog-list" class="card-grid">
-        <div class="blog-card" id="card_id_098f6bcd46" onclick="openPost('id_098f6bcd46')">
-            <span class="medium">测试文章标题</span><br/>
-            <span class="small">这里是文章的简短摘要，点击卡片阅读更多...</span>
-        </div>
-        </div>
-
-    <div id="blog-content" style="margin-top: 20px; display: none;">
-        <button class="back-btn" onclick="backToList()">← 返回列表</button>
-        <div id="post-display-area" class="content-card">
-            </div>
-    </div>
-
-    <div id="blog-data" style="display:none;">
-        <div id="data-id_098f6bcd46">
-            <h3>测试文章标题</h3>
-            <p class="small">2025-12-19</p>
-            <hr style="margin: 15px 0; border: 0; border-top: 1px solid #eee;">
-            <p>这是一段测试内容。既然你的 3D 打印耗材怕潮，记得多买点干燥剂。AMD 7500F 确实稳，配上 4060ti 玩地平线 5 应该是稳稳的 4K 分辨率（虽然可能要开 DLSS 帧生成）。</p>
-        </div>
-    </div>
+</div>
 </body>
 </html>
