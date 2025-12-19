@@ -1,10 +1,11 @@
 /* --- 全局设置 --- */
 :root {
-    --bg-color: whitesmoke; /* 保持你原来的经典背景色 */
+    --bg-color: whitesmoke;
     --card-bg: #ffffff;
     --primary-color: #3498db;
     --text-main: #2c3e50;
     --text-sub: #7f8c8d;
+    --accent-color: #e74c3c;
 }
 
 * {
@@ -27,10 +28,10 @@ body {
 
 /* --- 图片样式 --- */
 img#image01 {
-    width: 150px; /* 改小一点更精致 */
+    width: 150px;
     height: 150px;
     object-fit: cover;
-    border-radius: 50%; /* 圆形头像 */
+    border-radius: 50%;
     border: 4px solid white;
     box-shadow: 0 5px 15px rgba(0,0,0,0.1);
     margin: 0 auto 20px;
@@ -39,7 +40,7 @@ img#image01 {
 }
 
 img#image01:hover {
-    transform: rotate(360deg); /* 鼠标放上去转圈圈 */
+    transform: rotate(360deg);
 }
 
 /* --- 文字排版 --- */
@@ -60,6 +61,7 @@ h2 {
     border-bottom: 3px solid var(--primary-color);
     display: inline-block;
     padding-bottom: 5px;
+    margin-bottom: 20px;
 }
 
 a {
@@ -71,86 +73,85 @@ a {
 
 a:hover {
     text-decoration: underline;
-    color: #e74c3c;
+    color: var(--accent-color);
 }
 
-/* --- 重点！彩蛋隐藏链接样式 --- */
-.secret-link {
-    color: var(--bg-color) !important; /* 强制颜色和背景一样！ */
-    cursor: default; /* 鼠标放上去还是箭头，极难发现 */
-    text-decoration: none;
-    color: #00000000
+/* --- 统一的卡片网格布局 --- */
+#ul01 ul, .card-grid {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    padding: 0;
 }
 
-.secret-link:hover {
-    cursor: text; /* 只有稍微有点感觉 */
+/* --- 核心卡片样式（通用） --- */
+#ul01 li, .blog-card, .content-card {
+    background: var(--card-bg);
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    text-align: left;
+    transition: all 0.3s ease;
+    border: 1px solid transparent;
 }
-.secret-link::selection{
-    background:#FFFFFF;
-    color: #FFFFFF;
+
+/* 列表卡片的悬浮效果 */
+#ul01 li:hover, .blog-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 20px rgba(0,0,0,0.1);
+    border-color: var(--primary-color);
+    cursor: pointer;
 }
 
+/* --- 文章内容卡片专用 --- */
+.content-card {
+    text-align: left;
+    margin-top: 20px;
+    line-height: 1.8;
+}
 
+/* --- 按钮样式 --- */
+.back-btn {
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.3s;
+    margin-bottom: 20px;
+}
 
-/* --- final_page 专用样式 (.small .medium) --- */
+.back-btn:hover {
+    background: #2980b9;
+}
+
+/* --- 辅助类 --- */
 .small {
-    font-size: 1rem;
+    font-size: 0.95rem;
     color: #95a5a6;
     font-weight: normal;
 }
 
 .medium {
-    font-size: 1.3rem; /* 稍微大一点 */
+    font-size: 1.2rem;
     color: var(--text-main);
     font-weight: bold;
     margin: 0 3px;
 }
 
-/* --- final_page 列表转卡片网格 --- */
-#ul01 ul {
-    list-style: none;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* 响应式 */
-    gap: 15px;
-    padding: 0;
+/* --- 彩蛋隐藏链接 --- */
+.secret-link {
+    color: #00000000;
+    cursor: default;
+    text-decoration: none;
 }
-
-#ul01 li {
-    background: var(--card-bg);
-    padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-    text-align: left; /* 卡片内左对齐更好读 */
-    transition: transform 0.2s;
+.secret-link:hover {
+    cursor: text;
 }
-
-#ul01 li:hover {
-    transform: translateY(-5px); /* 浮动效果 */
-}
-/* ===== 博客相关（可选增强） ===== */
-
-#blog-list {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    margin-top: 20px;
-}
-
-.blog-card {
-    padding: 10px;
-    border: 1px solid #ccc;
-    cursor: pointer;
-}
-
-.blog-card:hover {
-    background-color: #f3f3f3;
-}
-
-#blog-content {
-    max-width: 700px;
-}
-
-.blog-img {
-    max-width: 100%;
-    margin: 10px 0;
+.secret-link::selection {
+    background: #FFFFFF;
+    color: #FFFFFF;
 }

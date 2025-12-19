@@ -10,13 +10,21 @@
         function openPost(postId) {
             const data = document.getElementById("data-" + postId);
             const display = document.getElementById("post-display-area");
+            const list = document.getElementById("blog-list");
+            const content = document.getElementById("blog-content");
+            
             if (!data || !display) return;
+            
             display.innerHTML = data.innerHTML;
+            list.style.display = "none"; // 隐藏列表
+            content.style.display = "block"; // 显示内容
         }
 
         function backToList() {
-            const display = document.getElementById("post-display-area");
-            display.innerHTML = "<p class='small'>请选择一篇文章</p>";
+            const list = document.getElementById("blog-list");
+            const content = document.getElementById("blog-content");
+            list.style.display = "grid"; // 恢复网格显示
+            content.style.display = "none"; // 隐藏内容
         }
     </script>
 </head>
@@ -29,9 +37,7 @@
 <div>
 <h1>
 <span class="small">这里是</span>
-<span class="medium">
-<a href="https://x.com/mikotossd0106" target="_blank">御坂鱼坂</a>
-</span>
+<span class="medium"><a href="https://x.com/mikotossd0106" target="_blank">御坂鱼坂</a></span>
 </h1>
 <p style="margin-top: 10px;">
 <span class="small">好吧这个人并</span>
@@ -122,7 +128,6 @@
 <a href="https://yiurblog.top/" target="_blank">来自洛🐱的友链</a>
 </p>
 </div>
-<!-- ================== 新增：博客区域 ================== -->
 <div style="margin-top: 60px;">
 <h2>
 <span class="small">随机掉落的</span>
@@ -130,30 +135,16 @@
 <span class="small">↓</span>
 </h2>
 </div>
-<!-- 博客列表（Python 工具只往这里加卡片） -->
-<div id="blog-list">
-<!-- blog-card 会被插入到这里 -->
+<div class="card-grid" id="blog-list">
 
-<div class="blog-card" id="card_id_098f6bcd46" onclick="openPost('id_098f6bcd46')">
-<span class="medium">test</span><br/>
-<span class="small">test</span>
+</div>
+<div id="blog-content" style="margin-top: 20px; display: none;">
+<button class="back-btn" onclick="backToList()">← 返回列表</button>
+<div class="content-card" id="post-display-area">
 </div>
 </div>
-<!-- 博客内容显示区 -->
-<div id="blog-content" style="margin-top: 20px;">
-<button onclick="backToList()">← 返回</button>
-<div id="post-display-area">
-<p class="small">请选择一篇文章</p>
-</div>
-</div>
-<!-- ⚠️ 关键：隐藏的数据区（Python 工具写入区） -->
 <div id="blog-data" style="display:none;">
-<!-- data-xxxx 会被插入到这里 -->
 
-<div id="data-id_098f6bcd46">
-<h3>test</h3>
-<p class="small">test</p>
-</div>
 </div>
 </body>
 </html>
