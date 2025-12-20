@@ -43,6 +43,15 @@ img#image01:hover {
     transform: rotate(360deg);
 }
 
+/* 博客文章内的图片自适应 */
+img.blog-img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin: 10px 0;
+    display: block;
+}
+
 /* --- 文字排版 --- */
 div {
     max-width: 800px;
@@ -141,17 +150,17 @@ a:hover {
     font-weight: bold;
     margin: 0 3px;
 }
+/* --- 彩蛋：隐形链接样式 (SCP收容措施) --- */
+a.secret-link {
+    color: transparent;       /* 核心：平时完全透明，和背景融为一体 */
+    text-decoration: none;    /* 去掉下划线 */
+    cursor: default;          /* 关键：鼠标放上去不显示“小手”，假装这里什么都没有 */
+    transition: all 0.5s ease; /* 显形时的渐变动画 */
+}
 
-/* --- 彩蛋隐藏链接 --- */
-.secret-link {
-    color: #00000000;
-    cursor: default;
-    text-decoration: none;
-}
-.secret-link:hover {
-    cursor: text;
-}
-.secret-link::selection {
-    background: #FFFFFF;
-    color: #FFFFFF;
+a.secret-link:hover {
+    color: var(--primary-color); /* 只有被鼠标扫过时，才显现出原本的蓝色 */
+    cursor: pointer;             /* 这时候才变回点击小手 */
+    text-decoration: underline;
+    text-shadow: 0 0 5px rgba(52, 152, 219, 0.5); /* 加一点发光特效，更有科技感 */
 }
