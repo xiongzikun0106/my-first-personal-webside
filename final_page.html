@@ -108,32 +108,68 @@
             });
         }
 
-        async function loadPost(postId) {
-            const displayArea = document.getElementById("post-display-area");
-            const list = document.getElementById("blog-list");
-            const content = document.getElementById("blog-content");
+        /* 将原来的 loadPost 函数替换为这个版本 
+   注意：这里保留了你刚刚修好的 ./images/ 路径写法
+*/
+    async function loadPost(postId) {
+        const displayArea = document.getElementById("post-display-area");
+        const list = document.getElementById("blog-list");
+        const content = document.getElementById("blog-content");
 
-            // 显示加载状态
-            displayArea.innerHTML = '<p class="small">正在解密文档...</p>';
-            list.style.display = "none";
-            content.style.display = "block";
+        displayArea.innerHTML = '<p class="small">正在解密文档...</p>';
+        list.style.display = "none";
+        content.style.display = "block";
 
-            try {
-                const response = await fetch(`data/articles/${postId}.json`);
-                if (!response.ok) throw new Error("文档已损毁或权限不足");
-                const article = await response.json();
+        try {
+            const response = await fetch(`data/articles/${postId}.json`);
+            if (!response.ok) throw new Error("文档已损毁或权限不足");
+            const article = await response.json();
 
-                const imgHtml = article.image ? `<img src="./images/${article.image}" class="blog-img">` : "";
-                
-                displayArea.innerHTML = `
-                    <h3>${article.title}</h3>
-                    ${imgHtml}
-                    <p class="small">${article.content}</p>
-                `;
-            } catch (error) {
-                displayArea.innerHTML = `<p class="small" style="color:var(--accent-color)">⚠️ 访问被拒绝：${error.message}</p>`;
+            // --- 核心渲染逻辑开始 ---
+            let htmlContent = `<h3>${article.title}</h3>`;
+
+            // 兼容旧版：如果数据里只有 content (字符串)，就把它转成只有一行的数组
+            const lines = Array.isArray(article.content_lines) 
+                        ? article.content_lines 
+                        : [article.content || ""];
+            
+            // 兼容旧版：如果没有 images 数组，但有单张 image
+            let images = article.images || [];
+            if (!article.images && article.image) {
+                // 旧版单图默认插在标题后（即第-1段后，或者第0段前，这里我们简单处理放在最前）
+                images.push({ name: article.image, insert_after: -1 });
             }
-        }
+
+            // 遍历每一行文本
+            lines.forEach((line, index) => {
+                // 1. 先检查有没有要在"正文开始前"插入的图片 (insert_after = -1)
+                if (index === 0) {
+                    const headerImgs = images.filter(img => img.insert_after === -1);
+                    headerImgs.forEach(img => {
+                        htmlContent += `<img src="./images/${img.name}" class="blog-img">`;
+                    });
+                }
+
+                // 2. 渲染当前段落文本
+                // 如果是空行，可以渲染一个换行符，或者直接忽略
+                if (line.trim()) {
+                    htmlContent += `<p class="small" style="margin-bottom: 10px;">${line}</p>`;
+                }
+
+                // 3. 检查有没有要插在"当前行之后"的图片
+                const targetImgs = images.filter(img => img.insert_after === index);
+                targetImgs.forEach(img => {
+                    htmlContent += `<img src="./images/${img.name}" class="blog-img">`;
+                });
+            });
+
+            displayArea.innerHTML = htmlContent;
+        // --- 核心渲染逻辑结束 ---
+
+    } catch (error) {
+        displayArea.innerHTML = `<p class="small" style="color:var(--accent-color)">⚠️ 访问被拒绝：${error.message}</p>`;
+    }
+}
 
         function backToList() {
             document.getElementById("blog-list").style.display = "grid";
