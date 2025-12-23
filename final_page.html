@@ -7,12 +7,10 @@
     <link href="style.css" rel="stylesheet"/>
 </head>
 <body>
-    <div>
-        <header>
-            <img alt="image01" id="image01" src="images/image01.jpg"/>
-        </header>
-    </div>
-    
+    <header>
+        <img alt="image01" id="image01" src="images/image01.jpg" onclick="location.href='index.html'" style="cursor: pointer;"/>
+    </header>
+
     <div>
         <h1>
             <span class="small">这里是</span>
@@ -25,31 +23,12 @@
             <span class="medium">文本</span>
         </p>
     </div>
-    <div>
-        <h2>
-            <span class="small">御坂鱼坂的</span>
-            <span class="medium">食用指南</span>
-            <span class="small">↓（存疑）</span>
-        </h2>
-    </div>
-    
+
     <div id="ul01">
         <ul>
-            <li><span class="small">耳朵被</span><span class="medium">水月雨</span><span class="small">的</span><span class="medium">和鸣</span><span class="small">给</span><span class="medium">惯坏了</span><br/><span class="small" style="font-size: 0.9em;">（是个HIFI难民）</span></li>
-            <li><span class="small">信仰是</span><span class="medium">指尖跃动的</span><span class="small"><a href="https://space.bilibili.com/514128180" target="_blank">bilibili</a></span><span class="medium">电光</span></li>
-            <li><span class="small">成分由</span><span class="medium">Warma</span><span class="small">和软萌的</span><span class="medium"><a href="https://t.me/+85vc8uK_ebUyM2E1" target="_blank">诗岸</a></span><span class="small">的歌声</span><span class="medium">混合而成</span></li>
-            <li><span class="small">在</span><span class="medium">地平线5</span><span class="small">里</span><span class="medium">飙车</span><span class="small">，在</span><span class="medium">Galgame</span><span class="small">里</span><span class="medium">飙泪</span></li>
-            <li><span class="small">手持</span><span class="medium">白色陶瓷</span><span class="small">质感的</span><span class="medium">Pixel 9 Pro XL</span><span class="small">假装自己是</span><span class="medium">原生党</span></li>
-            <li><span class="small">是一个</span><span class="medium">Keter级</span><span class="small">喜欢看</span><span class="medium"><a href="https://scp-wiki-cn.wikidot.com/everkeep-hub" target="_blank">SCP</a></span><span class="small">的</span><span class="medium">现实扭曲者</span></li>
             <li><span class="small">关押在</span><span class="medium">十平米</span><span class="small">只有</span><span class="medium">床</span><span class="small">和</span><span class="medium">AMD 7500f + 4060ti</span><span class="small">的</span><span class="medium">电子牢房</span></li>
-            <li><span class="small">收容措施：</span><span class="medium">23℃</span><span class="small">以及</span><span class="medium">30%湿度</span><br/><span class="small" style="font-size: 0.9em; color: #e74c3c;">(救救我的 3D打印耗材)</span></li>
-        </ul>
-    </div>
-
-    <div style="margin-top: 40px;">
-        <p id="link_yiur">
-            <a href="https://yiurblog.top/" target="_blank">来自洛🐱的友链</a>
-        </p>
+            <li><span class="small">收容措施：</span><span class="medium">23℃</span><span class="small">以及</span><span class="medium">30%湿度</span></li>
+            </ul>
     </div>
 
     <div style="margin-top: 60px;">
@@ -61,123 +40,86 @@
     </div>
 
     <div class="card-grid" id="blog-list">
-        <p class="small" id="loading-text">正在扫描现实扭曲场...</p>
+        <p class="small">正在同步 AMD 7500f 节点数据...</p>
     </div>
 
-    <div id="blog-content" style="margin-top: 20px; display: none;">
+    <div id="blog-content" style="margin-top: 20px; display: none; width: 100%;">
         <button class="back-btn" onclick="backToList()">← 返回列表</button>
-        <div class="content-card" id="post-display-area">
-            </div>
+        <div class="content-card" id="post-display-area"></div>
     </div>
 
     <script>
-        // 核心逻辑：从 JSON 加载数据
-        const BLOG_INDEX_URL = './data/posts.json';
-
+        // --- 初始化列表 ---
         async function initBlog() {
+            const blogList = document.getElementById("blog-list");
             try {
-                const response = await fetch(BLOG_INDEX_URL);
-                if (!response.ok) throw new Error("无法读取收容目录");
+                // 添加时间戳防止 GitHub Pages 缓存 posts.json
+                const response = await fetch('data/posts.json?t=' + Date.now());
                 const posts = await response.json();
-                renderList(posts);
+                
+                blogList.innerHTML = posts.map(post => `
+                    <div class="blog-card" onclick="loadPost('${post.id}')">
+                        <h4>${post.title}</h4>
+                        <p class="small">${post.intro || '暂无简介'}</p>
+                    </div>
+                `).join('');
             } catch (error) {
-                document.getElementById('blog-list').innerHTML = 
-                    `<p class="small" style="color:var(--accent-color)">⚠️ 收容失效：无法加载碎碎念 (${error.message})</p>`;
+                blogList.innerHTML = '<p class="small">⚠️ 无法连接到数据终端: ' + error.message + '</p>';
             }
         }
 
-        function renderList(posts) {
-            const listContainer = document.getElementById('blog-list');
-            listContainer.innerHTML = ''; // 清空加载提示
-            
-            if (posts.length === 0) {
-                listContainer.innerHTML = '<p class="small">暂无收容记录。</p>';
-                return;
-            }
+        // --- 加载正文 ---
+        async function loadPost(postId) {
+            const displayArea = document.getElementById("post-display-area");
+            document.getElementById("blog-list").style.display = "none";
+            document.getElementById("blog-content").style.display = "block";
+            displayArea.innerHTML = '<p class="small">正在解密文档...</p>';
+            window.scrollTo(0, 0);
 
-            posts.forEach(post => {
-                const card = document.createElement('div');
-                card.className = 'blog-card';
-                card.onclick = () => loadPost(post.id);
-                // 使用 innerHTML 渲染，注意 Python 端已经做过转义，这里是安全的
-                card.innerHTML = `
-                    <span class="medium">${post.title}</span><br/>
-                    <span class="small">${post.intro}</span>
-                `;
-                listContainer.appendChild(card);
-            });
-        }
+            try {
+                // 同样添加时间戳防止缓存
+                const response = await fetch(`data/articles/${postId}.json?t=` + Date.now());
+                const article = await response.json();
 
-        /* 将原来的 loadPost 函数替换为这个版本 
-   注意：这里保留了你刚刚修好的 ./images/ 路径写法
-*/
-    async function loadPost(postId) {
-        const displayArea = document.getElementById("post-display-area");
-        const list = document.getElementById("blog-list");
-        const content = document.getElementById("blog-content");
-
-        displayArea.innerHTML = '<p class="small">正在解密文档...</p>';
-        list.style.display = "none";
-        content.style.display = "block";
-
-        try {
-            const response = await fetch(`data/articles/${postId}.json`);
-            if (!response.ok) throw new Error("文档已损毁或权限不足");
-            const article = await response.json();
-
-            // --- 核心渲染逻辑开始 ---
-            let htmlContent = `<h3>${article.title}</h3>`;
-
-            // 兼容旧版：如果数据里只有 content (字符串)，就把它转成只有一行的数组
-            const lines = Array.isArray(article.content_lines) 
-                        ? article.content_lines 
-                        : [article.content || ""];
-            
-            // 兼容旧版：如果没有 images 数组，但有单张 image
-            let images = article.images || [];
-            if (!article.images && article.image) {
-                // 旧版单图默认插在标题后（即第-1段后，或者第0段前，这里我们简单处理放在最前）
-                images.push({ name: article.image, insert_after: -1 });
-            }
-
-            // 遍历每一行文本
-            lines.forEach((line, index) => {
-                // 1. 先检查有没有要在"正文开始前"插入的图片 (insert_after = -1)
-                if (index === 0) {
-                    const headerImgs = images.filter(img => img.insert_after === -1);
-                    headerImgs.forEach(img => {
-                        htmlContent += `<img src="./images/${img.name}" class="blog-img">`;
-                    });
+                const lines = article.content_lines || (article.content ? article.content.split('\n') : []);
+                let images = article.images || [];
+                if (!article.images && article.image) {
+                    images.push({ name: article.image, insert_after: -1 });
                 }
 
-                // 2. 渲染当前段落文本
-                // 如果是空行，可以渲染一个换行符，或者直接忽略
-                if (line.trim()) {
-                    htmlContent += `<p class="small" style="margin-bottom: 10px;">${line}</p>`;
-                }
+                let finalHtml = `<h3>${article.title}</h3>`;
+                
+                // 渲染插图逻辑
+                const renderImg = (name) => `<img src="./images/${name}" class="blog-img" style="max-width:100%; border-radius:10px; margin:10px 0;">`;
 
-                // 3. 检查有没有要插在"当前行之后"的图片
-                const targetImgs = images.filter(img => img.insert_after === index);
-                targetImgs.forEach(img => {
-                    htmlContent += `<img src="./images/${img.name}" class="blog-img">`;
+                // 标题下图片
+                images.filter(img => img.insert_after === -1).forEach(img => {
+                    finalHtml += renderImg(img.name);
                 });
-            });
 
-            displayArea.innerHTML = htmlContent;
-        // --- 核心渲染逻辑结束 ---
+                // 按行渲染正文
+                lines.forEach((line, index) => {
+                    if(line.trim() !== "") {
+                        const isTime = line.includes("发布时间：");
+                        finalHtml += `<p class="small" style="${isTime ? 'border-top: 1px dashed #ccc; margin-top:20px; padding-top:10px; color:#7f8c8d;' : 'margin-bottom:10px;'}">${line}</p>`;
+                    }
+                    // 行后图片
+                    images.filter(img => img.insert_after === index).forEach(img => {
+                        finalHtml += renderImg(img.name);
+                    });
+                });
 
-    } catch (error) {
-        displayArea.innerHTML = `<p class="small" style="color:var(--accent-color)">⚠️ 访问被拒绝：${error.message}</p>`;
-    }
-}
+                displayArea.innerHTML = finalHtml;
+            } catch (error) {
+                displayArea.innerHTML = `<p class="small" style="color:var(--accent-color)">⚠️ 访问拒绝: ${error.message}</p>`;
+            }
+        }
 
         function backToList() {
             document.getElementById("blog-list").style.display = "grid";
             document.getElementById("blog-content").style.display = "none";
-            document.getElementById("post-display-area").innerHTML = ""; // 清理内存
         }
 
-        // 页面加载完成后启动
         window.addEventListener('DOMContentLoaded', initBlog);
     </script>
 </body>

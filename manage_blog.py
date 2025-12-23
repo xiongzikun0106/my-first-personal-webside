@@ -2,204 +2,141 @@ import json
 import os
 import hashlib
 import time
+from datetime import datetime
 
-# --- 基础配置 ---
+# --- 配置区 ---
 DATA_DIR = "data"
 ARTICLES_DIR = os.path.join(DATA_DIR, "articles")
-IMAGES_DIR = "images"  # 你的图片仓库
+IMAGES_DIR = "images"
 POSTS_INDEX = os.path.join(DATA_DIR, "posts.json")
 
-# 确保必要的目录存在
+# 确保目录存在
 os.makedirs(ARTICLES_DIR, exist_ok=True)
 
-def load_posts():
-    """读取文章索引列表"""
-    if not os.path.exists(POSTS_INDEX):
-        return []
+def load_json(path):
+    if not os.path.exists(path): return []
     try:
-        with open(POSTS_INDEX, 'r', encoding='utf-8') as f:
-            return json.load(f)
-    except:
-        return []
+        with open(path, 'r', encoding='utf-8') as f: return json.load(f)
+    except: return []
 
-def save_posts(posts):
-    """保存文章索引列表"""
-    with open(POSTS_INDEX, 'w', encoding='utf-8') as f:
-        json.dump(posts, f, ensure_ascii=False, indent=4)
-
-def input_multiline():
-    """输入正文逻辑"""
-    print("\n📝 请输入正文内容 (输入单独一行的 'END' 结束，输入 'UNDO' 撤销上一行):")
-    lines = []
-    while True:
-        line = input(f"[{len(lines)}] > ")
-        if line.strip() == 'END':
-            break
-        elif line.strip().upper() == 'UNDO':
-            if lines:
-                removed = lines.pop()
-                print(f"   已撤销: {removed[:10]}...")
-            else:
-                print("   没有可以撤销的行了。")
-            continue
-        lines.append(line)
-    return lines
+def save_json(path, data):
+    with open(path, 'w', encoding='utf-8') as f:
+        json.dump(data, f, ensure_ascii=False, indent=4)
 
 def add_new_post():
-    print("\n=== 📄 新建收容文档 ===")
-    title = input("请输入标题: ").strip()
-    if not title:
-        print("❌ 标题不能为空！")
-        return
-
-    intro = input("请输入简介 (用于列表显示): ").strip()
+    print("\n=== 🧪 启动新文档收容程序 ===")
+    title = input("请输入文章标题: ").strip()
+    intro = input("请输入文章简介 (List预览): ").strip()
     
-    # 1. 输入正文
-    content_lines = input_multiline()
-    if not content_lines:
-        print("❌ 正文不能为空！")
-        return
-
-    # 2. 插入图片逻辑
-    images_list = []
-    
+    # 1. 录入正文
+    print("\n📝 请输入正文 (输入 'END' 结束，输入 'UNDO' 撤销上一行):")
+    content_lines = []
     while True:
-        print("\n" + "="*40)
-        print("👀 当前文档结构预览 (用于定位图片):")
-        print(f"[-1] (⚠️ 标题正下方，正文之前)")
-        for idx, line in enumerate(content_lines):
-            # 这里按照要求，显示完整内容，不截断
-            print(f"[{idx}] {line}")
-            
-            # 显示已绑定的图片
-            current_imgs = [img['name'] for img in images_list if img['insert_after'] == idx]
-            for img_name in current_imgs:
-                print(f"     └── 🖼️  [图片] {img_name}")
-
-        print("="*40)
-        
-        choice = input("\n需要插入图片吗？(y/n): ").lower()
-        if choice != 'y':
-            break
-
-        # 图片检查逻辑
-        img_name = input("请输入 images 文件夹内的图片文件名 (例如 cat.jpg): ").strip()
-        full_img_path = os.path.join(IMAGES_DIR, img_name)
-        
-        if not os.path.exists(full_img_path):
-            print(f"⚠️  警告: 在 {IMAGES_DIR} 下没找到 '{img_name}'。")
-            confirm = input("   确定文件名没错且稍后会上传吗？(y/n): ").lower()
-            if confirm != 'y':
-                continue
-        else:
-            print("✅ 成功检测到本地图片资源。")
-
-        # 位置选择
-        try:
-            pos_input = input(f"请输入要插在哪一行后面? (-1 ~ {len(content_lines)-1}): ")
-            pos = int(pos_input)
-            if pos < -1 or pos >= len(content_lines):
-                raise ValueError
-            
-            # 幂等性/重复性检查：防止同一张图在同一位置重复插入
-            is_duplicate = any(img['name'] == img_name and img['insert_after'] == pos for img in images_list)
-            if is_duplicate:
-                print("⚠️  这张图已经在这个位置了，无需重复添加。")
-            else:
-                images_list.append({
-                    "name": img_name,
-                    "insert_after": pos
-                })
-                print(f"📎 已将 {img_name} 锚定至索引 [{pos}]。")
-
-        except ValueError:
-            print("❌ 无效的索引位置！")
-
-    # 3. 生成 ID 并保存
-    # 使用 Hash 保证只要标题和时间不同，ID就唯一
-    timestamp = str(time.time())
-    post_id = f"id_{hashlib.md5((title + timestamp).encode()).hexdigest()[:10]}"
+        line = input(f"[{len(content_lines)}] > ")
+        if line.strip().upper() == 'END': break
+        if line.strip().upper() == 'UNDO' and content_lines:
+            content_lines.pop()
+            continue
+        content_lines.append(line)
     
+    # 自动在最后添加时间戳
+    timestamp_str = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    content_lines.append(f"--- 发布时间：{timestamp_str} ---")
+
+    # 2. 插入图片（仅记录路径，不移动文件）
+    images_list = []
+    while True:
+        print("\n" + "="*50)
+        print("🔍 当前内容完整预览（用于定位图片插槽）:")
+        print("[-1] -> (标题下方，正文之前)")
+        for idx, line in enumerate(content_lines):
+            print(f"[{idx}] {line}")
+            # 显示该行已绑定的图
+            for img in images_list:
+                if img['insert_after'] == idx:
+                    print(f"     └─🖼️  [图片已锚定]: {img['name']}")
+        print("="*50)
+
+        opt = input("\n是否要关联图片？(y/n): ").lower()
+        if opt != 'y': break
+
+        img_name = input("请输入 images/ 目录下的文件名 (如 test.jpg): ").strip()
+        if not os.path.exists(os.path.join(IMAGES_DIR, img_name)):
+            print(f"⚠️  警告：在 images/ 下没找到 {img_name}，请确保稍后手动上传。")
+
+        try:
+            pos = int(input(f"要把图片插在第几行后面? (-1 ~ {len(content_lines)-1}): "))
+            if -1 <= pos < len(content_lines):
+                # 幂等性检查：避免同一位置重复插同一张图
+                if any(i['name'] == img_name and i['insert_after'] == pos for i in images_list):
+                    print("🚫 发现重复锚定，已忽略。")
+                else:
+                    images_list.append({"name": img_name, "insert_after": pos})
+                    print("✅ 锚定成功。")
+            else:
+                print("❌ 索引超出现实边界！")
+        except ValueError:
+            print("❌ 输入不是有效的数字。")
+
+    # 3. 生成唯一 ID 并保存
+    post_id = f"id_{hashlib.md5((title + str(time.time())).encode()).hexdigest()[:10]}"
     article_data = {
         "id": post_id,
         "title": title,
         "content_lines": content_lines,
         "images": images_list,
-        "date": time.strftime("%Y-%m-%d %H:%M:%S")
+        "date": timestamp_str
     }
 
-    # 写入文章详情 JSON
-    filepath = os.path.join(ARTICLES_DIR, f"{post_id}.json")
-    with open(filepath, 'w', encoding='utf-8') as f:
-        json.dump(article_data, f, ensure_ascii=False, indent=4)
-
-    # 4. 更新索引 (posts.json)
-    posts = load_posts()
-    new_entry = {
-        "id": post_id,
-        "title": title,
-        "intro": intro
-    }
-    # 插入到最前面
-    posts.insert(0, new_entry)
-    save_posts(posts)
-
-    print(f"\n🎉 文档创建成功！ID: {post_id}")
-    print(f"   记得 git add . 并提交哦！")
-
-def delete_post():
-    print("\n=== 🗑️  删除收容文档 ===")
-    posts = load_posts()
-    if not posts:
-        print("❌ 当前没有任何文档。")
+    # 幂等性保存：检查文件是否冲突（理论上由于时间戳不会冲突）
+    article_path = os.path.join(ARTICLES_DIR, f"{post_id}.json")
+    if os.path.exists(article_path):
+        print("☢️  发生 ID 碰撞！收容中止。")
         return
 
-    # 列出所有文章
-    for i, post in enumerate(posts):
-        print(f"[{i}] {post['title']} (ID: {post['id']})")
+    save_json(article_path, article_data)
+
+    # 4. 更新索引
+    posts = load_json(POSTS_INDEX)
+    posts.insert(0, {"id": post_id, "title": title, "intro": intro})
+    save_json(POSTS_INDEX, posts)
+    print(f"\n🎉 文档 {post_id} 收容成功！")
+
+def delete_post():
+    print("\n=== 🗑️  收容失效/文档处决程序 ===")
+    posts = load_json(POSTS_INDEX)
+    if not posts:
+        print("📂 当前收容室为空。"); return
+
+    for i, p in enumerate(posts):
+        print(f"[{i}] {p['title']} ({p['id']})")
 
     try:
-        idx = int(input("\n请输入要删除的序号 (输入 -1 取消): "))
-        if idx == -1: return
-        if 0 <= idx < len(posts):
-            target = posts[idx]
-            confirm = input(f"⚠️  确定要永久删除《{target['title']}》吗？(y/n): ").lower()
-            if confirm == 'y':
-                # 1. 删除详情文件
-                file_path = os.path.join(ARTICLES_DIR, f"{target['id']}.json")
-                if os.path.exists(file_path):
-                    os.remove(file_path)
-                    print(f"   - 已物理粉碎文档: {file_path}")
-                else:
-                    print(f"   - 警告: 找不到详情文件 {file_path}，可能已被手动删除。")
-
-                # 2. 从索引移除
-                del posts[idx]
-                save_posts(posts)
-                print("   - 已从索引中抹除记录。")
-                print("✅ 删除完成。")
-        else:
-            print("❌ 无效的序号。")
-    except ValueError:
-        print("❌ 输入错误。")
+        choice = int(input("\n请输入要处决的文档序号 (输入 -1 取消): "))
+        if choice == -1: return
+        target = posts.pop(choice)
+        
+        # 物理删除详情文件
+        detail_path = os.path.join(ARTICLES_DIR, f"{target['id']}.json")
+        if os.path.exists(detail_path):
+            os.remove(detail_path)
+            print(f"🔥 已粉碎物理文档: {detail_path}")
+        
+        save_json(POSTS_INDEX, posts)
+        print(f"✅ 已从索引中抹除《{target['title']}》。")
+    except Exception as e:
+        print(f"❌ 处决失败: {e}")
 
 def main():
     while True:
-        print("\n--- blog manager ---")
-        print("1. 新建文章 (New)")
-        print("2. 删除文章 (Delete)")
-        print("3. 退出 (Exit)")
-        choice = input("请选择指令: ").strip()
-
-        if choice == '1':
-            add_new_post()
-        elif choice == '2':
-            delete_post()
-        elif choice == '3':
-            print("再见，现实扭曲者。")
-            break
-        else:
-            print("无效指令。")
+        print("\n--- 💻 SCP-Mikoto 终端系统 ---")
+        print("1. 新建文档 (Add)")
+        print("2. 处决文档 (Delete)")
+        print("3. 退出系统 (Exit)")
+        cmd = input("指令 > ").strip()
+        if cmd == '1': add_new_post()
+        elif cmd == '2': delete_post()
+        elif cmd == '3': break
 
 if __name__ == "__main__":
     main()
