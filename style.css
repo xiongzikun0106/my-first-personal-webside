@@ -164,3 +164,8 @@ a.secret-link:hover {
     text-decoration: underline;
     text-shadow: 0 0 5px rgba(52, 152, 219, 0.5); /* 加一点发光特效，更有科技感 */
 }
+#link_yiur{
+    font-size: 0.9rem;
+    color: var(--text-sub);
+    margin-top: 10px;
+}
