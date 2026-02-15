@@ -32,3 +32,6 @@ pnpm-debug.log*
 # Cache
 .cache/
 .temp/
+
+# Old blog files (deprecated)
+valaxy-blog/
