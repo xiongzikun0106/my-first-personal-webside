@@ -170,5 +170,14 @@ export default defineValaxyConfig<UserThemeConfig>({
     codeHighlight: {
       theme: 'one-dark-pro'
     }
+  },
+
+  // RSS generation currently crashes on specific CJK width calculation in this content set.
+  // Disable it to keep CI/deploy stable; can be re-enabled after upstream fix.
+  modules: {
+    rss: {
+      enable: false,
+      fullText: false
+    }
   }
 })

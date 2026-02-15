@@ -10,7 +10,8 @@
   },
   "dependencies": {
     "valaxy": "^0.20.0",
-    "valaxy-theme-yun": "^0.20.0"
+    "valaxy-theme-yun": "^0.20.0",
+    "vue-router": "4"
   },
   "devDependencies": {
     "@iconify-json/ic": "^1.1.17",
