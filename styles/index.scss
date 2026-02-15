@@ -1,0 +1,100 @@
+// 自定义全局样式
+
+// 自定义主题色
+:root {
+  --va-c-primary: #3498db;
+  --va-c-primary-light: #5dade2;
+  --va-c-primary-dark: #2980b9;
+  --accent-color: #e74c3c;
+}
+
+// 博客卡片动画效果
+.post-card {
+  transition: all 0.3s ease;
+  
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.1);
+  }
+}
+
+// 头像旋转效果
+.site-avatar img {
+  transition: transform 0.5s ease;
+  
+  &:hover {
+    transform: rotate(360deg);
+  }
+}
+
+// 自定义滚动条
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--va-c-bg-soft);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--va-c-primary);
+  border-radius: 4px;
+  
+  &:hover {
+    background: var(--va-c-primary-dark);
+  }
+}
+
+// 文章内容优化
+.post-content {
+  line-height: 1.8;
+  
+  // 图片居中
+  img {
+    display: block;
+    margin: 1.5rem auto;
+    max-width: 100%;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  
+  // 分割线美化
+  hr {
+    border: none;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--va-c-divider), transparent);
+    margin: 2rem 0;
+  }
+  
+  // 引用块样式
+  blockquote {
+    border-left: 4px solid var(--va-c-primary);
+    padding-left: 1rem;
+    margin: 1rem 0;
+    color: var(--va-c-text-2);
+    font-style: italic;
+    background: var(--va-c-bg-soft);
+    padding: 1rem;
+    border-radius: 0 8px 8px 0;
+  }
+}
+
+// 响应式优化
+@media (max-width: 768px) {
+  .post-content {
+    img {
+      margin: 1rem 0;
+    }
+  }
+  
+  .site-info {
+    padding: 1rem;
+  }
+}
+
+// 暗色模式适配
+.dark {
+  --va-c-primary: #5dade2;
+  --accent-color: #f1948a;
+}

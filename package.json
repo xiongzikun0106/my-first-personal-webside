@@ -1,0 +1,25 @@
+{
+  "name": "misaka-yuban-blog",
+  "version": "1.0.0",
+  "private": true,
+  "packageManager": "pnpm@9.0.0",
+  "scripts": {
+    "dev": "valaxy",
+    "build": "valaxy build",
+    "preview": "valaxy preview"
+  },
+  "dependencies": {
+    "valaxy": "^0.20.0",
+    "valaxy-theme-yun": "^0.20.0"
+  },
+  "devDependencies": {
+    "@iconify-json/ic": "^1.1.17",
+    "@iconify-json/mdi": "^1.1.66",
+    "@iconify-json/ri": "^1.1.21"
+  },
+  "pnpm": {
+    "overrides": {
+      "esbuild": "0.25.12"
+    }
+  }
+}
