@@ -6,10 +6,12 @@ links:
   - name: 洛🐱的博客
     url: https://yiurblog.top/
     avatar: https://yiurblog.top/favicon.ico
+    blog: 洛🐱的博客
     desc: 来自洛🐱的友链
   - name: 编汐译梦CacheTide
     url: https://cachetide.top/
     avatar: https://cachetide.top/favicon.jpg
+    blog: 云边的小旅店
     desc: 无人相伴的路，惝恍迷离的舞
 ---
 
