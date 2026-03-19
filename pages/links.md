@@ -7,6 +7,10 @@ links:
     url: https://yiurblog.top/
     avatar: https://yiurblog.top/favicon.ico
     desc: 来自洛🐱的友链
+  - name: 编汐译梦CacheTide
+    url: https://cachetide.top/
+    avatar: https://cachetide.top/favicon.jpg
+    desc: 无人相伴的路，惝恍迷离的舞
 ---
 
 ## 🔗 友情链接
