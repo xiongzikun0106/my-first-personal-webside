@@ -79,12 +79,13 @@ export default defineValaxyConfig<UserThemeConfig>({
       }
     },
 
-    // 背景配置
+    // 背景配置（原 pages/背景.png，已置于 public 以便静态访问）
     bg_image: {
       enable: true,
-      url: '/images/bg.jpg',
-      dark: '/images/bg-dark.jpg',
-      opacity: 0.8
+      url: '/images/site-background.png',
+      dark: '/images/site-background.png',
+      // 略透明，避免压过正文与卡片
+      opacity: 0.42
     },
 
     // 页脚配置
