@@ -231,6 +231,14 @@ function pickArr<T>(rng: () => number, arr: T[]): T {
 }
 
 /**
+ * 「出货」期望值：检定通过后再过此闸门，使总出货率约在 TARGET 附近。
+ * 闸门 ≈ TARGET / ASSUMED_PROBE_OK（粗估单次网络检定通过率，可随观感微调）。
+ */
+const TARGET_OVERALL_SHIP_RATE = 0.1
+const ASSUMED_PROBE_OK_RATE = 0.33
+const POST_PROBE_OPEN_GATE = Math.min(1, TARGET_OVERALL_SHIP_RATE / ASSUMED_PROBE_OK_RATE)
+
+/**
  * 探测「能否连上」：优先 favicon；再辅 no-cors fetch（完成即认为链路可用，非严格 HTTP 状态码）
  */
 async function probeUrl(url: string): Promise<{ ok: boolean; detail: string }> {
@@ -333,9 +341,15 @@ async function doPull() {
   const probe = await probeUrl(url)
   pulling.value = false
 
-  lastProbeDetail.value = probe.detail
+  const gateOk = rng() < POST_PROBE_OPEN_GATE
+  const shipped = probe.ok && gateOk
+  lastProbeDetail.value = shipped
+    ? probe.detail
+    : probe.ok
+      ? `${probe.detail}（未出货）`
+      : probe.detail
 
-  if (probe.ok) {
+  if (shipped) {
     successClicks.value += 1
     resetPityOnly()
     window.open(url, '_blank', 'noopener,noreferrer')
