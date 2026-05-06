@@ -11,6 +11,9 @@ importers:
 
   .:
     dependencies:
+      tlds:
+        specifier: ^1.261.0
+        version: 1.261.0
       valaxy:
         specifier: ^0.20.0
         version: 0.20.7(@babel/parser@7.29.0)(@nuxt/kit@3.21.1)(@types/markdown-it@14.1.2)(@types/node@25.2.3)(@vue/compiler-dom@3.5.28)(axios@1.13.5)(eslint@10.0.0(jiti@2.6.1))(postcss@8.5.6)(rollup@4.57.1)(terser@5.46.0)(tsx@4.21.0)(typescript@5.9.3)(unhead@1.11.20)(yaml@2.8.2)
@@ -3173,6 +3176,10 @@ packages:
   tinyglobby@0.2.15:
     resolution: {integrity: sha512-j2Zq4NyQYG5XMST4cbs02Ak8iJUdxRM0XI5QyxXuZOzKOINmWurp3smXu3y5wDcJrptwpSjgXHzIQxR0omXljQ==}
     engines: {node: '>=12.0.0'}
+
+  tlds@1.261.0:
+    resolution: {integrity: sha512-QXqwfEl9ddlGBaRFXIvNKK6OhipSiLXuRuLJX5DErz0o0Q0rYxulWLdFryTkV5PkdZct5iMInwYEGe/eR++1AA==}
+    hasBin: true
 
   tldts-core@6.1.86:
     resolution: {integrity: sha512-Je6p7pkk+KMzMv2XXKmAE3McmolOQFdxkKw0R8EYNr7sELW46JqnNeTX8ybPiQgvg1ymCoF8LXs5fzFaZvJPTA==}
@@ -7078,6 +7085,8 @@ snapshots:
     dependencies:
       fdir: 6.5.0(picomatch@4.0.3)
       picomatch: 4.0.3
+
+  tlds@1.261.0: {}
 
   tldts-core@6.1.86: {}
 

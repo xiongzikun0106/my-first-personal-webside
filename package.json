@@ -9,6 +9,7 @@
     "preview": "valaxy preview"
   },
   "dependencies": {
+    "tlds": "^1.261.0",
     "valaxy": "^0.20.0",
     "valaxy-theme-yun": "^0.20.0",
     "vue-router": "4"
