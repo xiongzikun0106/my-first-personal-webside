@@ -39,6 +39,12 @@ export default defineSiteConfig({
       link: 'https://t.me/+85vc8uK_ebUyM2E1',
       icon: 'i-ri-telegram-fill',
       color: '#0088CC'
+    },
+    {
+      name: 'QRZ (BA8BOM)',
+      link: 'https://www.qrz.com/db/BA8BOM',
+      icon: 'i-ri-broadcast-fill',
+      color: '#00FFFF'
     }
   ],
   // 搜索配置
