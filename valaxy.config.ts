@@ -148,6 +148,12 @@ export default defineValaxyConfig<UserThemeConfig>({
         url: '/tags/',
         icon: 'i-ri-price-tag-3-line',
         color: '#3498db'
+      },
+      {
+        name: '路书',
+        url: '/map/',
+        icon: 'i-ri-route-fill',
+        color: '#2f7d5a'
       }
     ],
 
